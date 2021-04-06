@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import logo from './logo.svg';
 import './App.scss';
+import PokemonFn from "./fns/pokemon";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
@@ -33,7 +34,10 @@ function App() {
 
   else {
     const items = allPokemon?.results.map((pokemon) => {
+      const img = PokemonFn.getImageUrl(pokemon);
+
       return <li key={pokemon.url}>
+        <img src={img} loading="lazy"/>
         name: {pokemon.name}
         url: {pokemon.url}
       </li>
