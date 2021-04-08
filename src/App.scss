@@ -1,5 +1,11 @@
 // see https://github.com/couds/react-bulma-components#advanced
-@import "~react-bulma-components/src/index.sass";
+// we are supposed to import the react-bulma-component index.sass
+// here, but it is somehow not included in the RC version.
+// however, that index.sass anyway only included the Bulma SASS deps
+// so we just include them directly.
+@import "~bulma/sass/utilities/_all";
+@import "~bulma/sass/base/_all.sass";
+@import '~bulma/sass/layout/hero.sass';
 
 .App {
   text-align: center;

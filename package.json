@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@compiled/css-in-js": "^0.4.7",
+    "@compiled/ts-transform-css-in-js": "^0.4.7",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -14,7 +16,7 @@
     "pokeapi-js-wrapper": "^1.2.0",
     "pokeapi-typescript": "^2.1.0",
     "react": "^17.0.2",
-    "react-bulma-components": "^3.4.0",
+    "react-bulma-components": "couds/react-bulma-components#v4.0.0-RC.0",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.3",
@@ -46,6 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.9"
+    "@types/styled-components": "^5.1.9",
+    "bulma": "^0.9.2",
+    "ttypescript": "^1.5.12"
   }
 }
