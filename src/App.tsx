@@ -65,16 +65,16 @@ function App() {
       );
 
       return <PokemonOverview
-        data={pokemon}
-        index={index}
-        loadImg={renderImg}
-        onView={() => {
-          if (index > currentInView) {
-            console.log(`updatting current view offset ${currentInView} to ${index}`);
-            setCurrentInView(index);
-          }
-        }}
-      />
+          data={pokemon}
+          index={index}
+          loadImg={renderImg}
+          onView={() => {
+            if (index > currentInView) {
+              console.log(`updatting current view offset ${currentInView} to ${index}`);
+              setCurrentInView(index);
+            }
+          }}
+        />
     });
 
     return <div>
