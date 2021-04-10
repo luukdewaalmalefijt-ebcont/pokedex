@@ -10,10 +10,14 @@ const Img = styled.img`
   opacity: 1;
 
   ${props => props?.src?.includes(PLACEHOLDER_IMAGE_NAME) && css`
-    opacity: 0.1;
+    opacity: 0.05;
   `}
 `;
 
+// TODO: use onLoad to detect when the real iage has actually loaded:
+// https://www.javascriptstuff.com/detect-image-load/
+// https://github.com/DeedMob/react-load-image
+// https://codeburst.io/how-to-progressively-load-images-in-react-using-hooks-80c50fd447cd
 export default function PokemonImage(props : any) {
   const [loaded, setLoaded] = useState(false);
 

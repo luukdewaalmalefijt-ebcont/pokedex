@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import styled, { css } from 'styled-components';
 
 import logo from './logo.svg';
 import './App.scss';
@@ -11,6 +12,18 @@ import PokemonOverview from "./components/PokemonOverview";
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 import { Waypoint } from 'react-waypoint';
+
+const OverlayBlur = styled.div`
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 31%, rgba(100, 100, 100, 0.67) 93%);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3) 93%);
+`;
 
 function App() {
   // loading state
@@ -64,7 +77,10 @@ function App() {
       />
     });
 
-    return <ul>{items}</ul>
+    return <div>
+      <ul>{items}</ul>
+      <OverlayBlur/>
+    </div>
   }
 }
 
