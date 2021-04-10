@@ -25,6 +25,12 @@ const OverlayBlur = styled.div`
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3) 93%);
 `;
 
+const Index = styled.ul`
+  position: absolute;
+  left: 0;
+  top: 0;
+`;
+
 function App() {
   // loading state
   const [isLoading, setLoading] = useState(true);
@@ -54,6 +60,7 @@ function App() {
   }
 
   else {
+    // TODO: turn into own component
     const items = allPokemon?.results.map((pokemon, index) => {
       const img = PokemonFn.getImageUrl(pokemon);
 
@@ -77,8 +84,31 @@ function App() {
         />
     });
 
+    // clone resultset to prevent sorting the original reference
+    // and messing up the "natural" pokedex order
+    const indexPokemon = PokemonFn.cloneResultSet(allPokemon);
+
+    // sort resultset copy for index
+    indexPokemon
+      ?.results
+      ?.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+
+    // TODO: turn into own component
+    const indexItems = indexPokemon
+      ?.results
+      ?.map((pokemon, index) => {
+        return <li><a href="#">{pokemon.name}</a></li>
+      });
+
     return <div>
-      <ul>{items}</ul>
+      <Index className="index">
+        {indexItems}
+      </Index>
+      <ul>
+        {items}
+      </ul>
       <OverlayBlur/>
     </div>
   }

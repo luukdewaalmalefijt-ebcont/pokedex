@@ -64,4 +64,15 @@ function getIndex(pokemon : INamedApiResource<IPokemon>) : number {
   return parseInt(parts[parts.length-2]) // 2 due to trailing slash
 }
 
-export default { getImageUrl, getIndex };
+function cloneResultSet(inputset : INamedApiResourceList<IPokemon> | undefined) : INamedApiResourceList<IPokemon> | undefined {
+  if (inputset) {
+    return {
+      ...inputset,
+      results: [
+        ...(inputset?.results || [])
+      ]
+    }
+  }
+}
+
+export default { getImageUrl, getIndex, cloneResultSet };
