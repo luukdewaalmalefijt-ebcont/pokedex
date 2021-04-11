@@ -46,9 +46,9 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     const style = {
       opacity:
         1 - this.state.displacement,
-      "transition-property":
+      transitionProperty:
         "opacity",
-      "transition-duration":
+      transitionDuration:
         "100ms"
     };
 
