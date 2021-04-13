@@ -63,7 +63,7 @@ function App() {
     <LoadingScreen
         loading={isLoading}
         bgColor='#f1f1f1'
-        spinnerColor='#9ee5f8'
+        spinnerColor='#c00'
         textColor='#676767'
         logoSrc='/placeholder-pokeball2.png'
         text='Welcome to EBCONT Pokedex'

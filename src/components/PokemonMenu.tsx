@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import '../App.scss';
 import PokemonFn from "../fns/pokemon";
 import PokemonOverview from "./PokemonOverview";
+import Utils from "../fns/util";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
@@ -17,9 +18,17 @@ const Index = styled.ul`
   top: 0;
   background: rgba(50, 50, 50, 0.8);
   padding: 15px;
+  transition: all;
 
   &:hover {
     rgba(50, 50, 50, 1);
+  }
+
+  &.sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
   }
 `;
 
@@ -43,9 +52,35 @@ interface PokemonMenuProps {
 }
 
 function PokemonMenu(props : PokemonMenuProps) {
+  const element = useRef<any>(null);
+  const [isSticky, setSticky] = useState(false);
+
   // clone resultset to prevent sorting the original reference
   // and messing up the "natural" pokedex order
   const indexPokemon = PokemonFn.cloneResultSet(props.data);
+
+  const onScroll = ( e : any ) => {
+    // the bounding box compared to the viewport
+    const rect = element
+      ?.current
+      ?.getBoundingClientRect();
+
+    let shouldSticky = (window.scrollY) >= (rect.height - window.innerHeight);
+
+    setSticky( shouldSticky );
+  };
+
+  useEffect(() => {
+    window
+      .addEventListener(
+        "scroll",
+        Utils.debounce(onScroll, 100, false));
+
+    return () => window
+      .removeEventListener(
+        "scroll",
+        onScroll);
+  });
 
   // sort resultset copy for index
   indexPokemon
@@ -53,6 +88,11 @@ function PokemonMenu(props : PokemonMenuProps) {
     ?.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
+
+  const classes = [
+    "index",
+    (isSticky) ? "sticky" : ""
+  ];
 
   // TODO: turn into own component
   const indexItems = indexPokemon
@@ -63,7 +103,7 @@ function PokemonMenu(props : PokemonMenuProps) {
       </IndexItem>
     });
 
-  return <Index className="index">
+  return <Index className={classes.join(" ")} ref={element}>
     {indexItems}
   </Index>
 }
