@@ -17,14 +17,14 @@ const Item = styled.li`
 interface PokemonOverviewProps {
    data: INamedApiResource<IPokemon>;
    index: number;
-   loadImg: boolean;
    onView: any;
 }
 
 interface PokemonOverviewState {
    isVisible: boolean,
    ref: any;
-   displacement: number
+   displacement: number,
+   loadImg: boolean
 }
 
 // TODO: props typing
@@ -35,7 +35,8 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     this.state = {
       isVisible: !props.index,
       ref: React.createRef(),
-      displacement: (props.index) ? 1 : 0
+      displacement: (props.index) ? 1 : 0,
+      loadImg: !!((props.index == 0) || (props.index && props.index < 5))
     };
   }
 
@@ -46,6 +47,7 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     const style = {
       opacity:
         1 - this.state.displacement,
+        // this.state.loadImg ? (1 - this.state.displacement) : 1,
       transitionProperty:
         "opacity",
       transitionDuration:
@@ -84,7 +86,10 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
           // let container know the index of the Pokemon that scrolled into view
           // so we can centrally track which is currently showing
           onEnter={() => {
-            this.setState({isVisible: true});
+            this.setState({
+              isVisible: true,
+              loadImg: true
+            });
             this.props.onView();
             window.addEventListener("scroll", Utils.throttle(onScroll, 100));
           }}
@@ -104,10 +109,10 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
             <Container className="has-text-centered">
               <PokemonImage
                 src={img}
-                placeholder={!this.props.loadImg}
-                height={150}
+                placeholder={!this.state.loadImg}
+                height={300}
               />
-              <h2>{this.props.data.name}</h2>
+              <h2 className="is-size-2">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
             </Container>
           </Body>
         </Hero>
