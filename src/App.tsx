@@ -14,6 +14,7 @@ import PokemonMenu from "./components/PokemonMenu";
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 import { Waypoint } from 'react-waypoint';
+import LoadingScreen from 'react-loading-screen';
 
 const OverlayBlur = styled.div`
   position: fixed;
@@ -52,17 +53,24 @@ function App() {
       });
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const content = <div>
+    <PokemonList data={allPokemon!}/>
+    <OverlayBlur/>
+    <PokemonMenu data={allPokemon!}/>
+  </div>;
 
-  else {
-    return <div>
-      <PokemonList data={allPokemon!}/>
-      <OverlayBlur/>
-      <PokemonMenu data={allPokemon!}/>
-    </div>
-  }
+  return (
+    <LoadingScreen
+        loading={isLoading}
+        bgColor='#f1f1f1'
+        spinnerColor='#9ee5f8'
+        textColor='#676767'
+        logoSrc='/placeholder-pokeball2.png'
+        text='Welcome to EBCONT Pokedex'
+      >
+        {content}
+    </LoadingScreen>
+  )
 }
 
 export default App;
