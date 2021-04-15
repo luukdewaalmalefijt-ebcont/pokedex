@@ -47,8 +47,6 @@ function App() {
   // the number of images to preload beyond the viewport
   const POKEMON_IMAGE_PRELOAD_BUFFER = 2;
 
-  console.log(`[RENDER] App`);
-
   // effect for first data load
   useMemo(() => {
     PokeAPI

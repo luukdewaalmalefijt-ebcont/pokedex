@@ -16,8 +16,10 @@ interface PokemonListProps {
 }
 
 function PokemonList(props : PokemonListProps) {
-  console.log(`[RENDER] PokemonList`);
+  // result for allPokemon query
+//   const [allPokemon, setPokemonResult] = useState<INamedApiResourceList<IPokemon>>(props.data);
 
+  // TODO: turn into own component
   const items = props.data?.results.map((pokemon, index) => {
     const img = PokemonFn.getImageUrl(pokemon);
 
