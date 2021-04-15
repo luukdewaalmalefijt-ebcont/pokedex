@@ -3,10 +3,12 @@ import styled, { css } from 'styled-components';
 
 import logo from './logo.svg';
 import './App.scss';
+import Utils from "./fns/util";
 import PokemonFn from "./fns/pokemon";
 import PokemonList from "./components/PokemonList";
 import PokemonOverview from "./components/PokemonOverview";
 import PokemonMenu from "./components/PokemonMenu";
+import useThrottle from "./hooks/throttle";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
@@ -36,6 +38,9 @@ function App() {
   // result for allPokemon query
   const [allPokemon, setPokemonResult] = useState<INamedApiResourceList<IPokemon>>();
 
+  // constant for the number of pokemon on the set
+  const [POKEMON_COUNT, setPokemonCount] = useState(0);
+
   // index of current pokemon in view
   const [currentInView, setCurrentInView] = useState(0);
 
@@ -52,14 +57,55 @@ function App() {
       .then((result) => {
         setPokemonResult(result);
         setLoading(false);
+        setPokemonCount(result.results.length);
       });
   }, []);
 
-  const content = <div>
-    <PokemonList data={allPokemon!}/>
-    <OverlayBlur/>
-    <PokemonMenu data={allPokemon!}/>
-  </div>;
+  const showNext = () => {
+    let newIndex = currentInView + 1;
+
+    if (newIndex >= POKEMON_COUNT) {
+      newIndex = newIndex - POKEMON_COUNT;
+    }
+
+    setCurrentInView(newIndex);
+  };
+
+  const showPrevious = () => {
+    let newIndex = currentInView - 1;
+
+    // start over from end of list, creating infinite browse
+    if (newIndex < 0) {
+      newIndex = POKEMON_COUNT - newIndex;
+    }
+
+    setCurrentInView(newIndex);
+  };
+
+  const onScroll = ( e : any ) => {
+    if (isLoading) return;
+
+    console.log(`current: ${currentInView}`);
+
+    (e.deltaY > 0)
+      ? showNext()
+      : showPrevious()
+  };
+
+  const onScrollThrottled = useThrottle(onScroll, 50);
+
+  useEffect(
+    Utils.globalUseEffectListener(
+      "wheel",
+      onScrollThrottled));
+
+//   const content = <div>
+//     <PokemonList data={allPokemon!}/>
+//     <OverlayBlur/>
+//     <PokemonMenu data={allPokemon!}/>
+//   </div>;
+
+  const content = <div>{currentInView}</div>;
 
   return (
     <LoadingScreen
