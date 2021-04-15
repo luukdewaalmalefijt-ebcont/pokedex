@@ -25,6 +25,8 @@ export default function PokemonImage(props : any) {
 
   const isPlaceholder = props.placeholder && !loaded;
 
+  //console.log(`[RENDER] PokemonImage`);
+
   // after loading once, do not go back to placeholder
   if (!props.placeholder && !loaded) {
     setLoaded(true);

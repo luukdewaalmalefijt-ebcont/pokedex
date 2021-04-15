@@ -55,6 +55,8 @@ function PokemonMenu(props : PokemonMenuProps) {
   const element = useRef<any>(null);
   const [isSticky, setSticky] = useState(false);
 
+  console.log(`[RENDER] PokemonMenu`);
+
   // clone resultset to prevent sorting the original reference
   // and messing up the "natural" pokedex order
   const indexPokemon = PokemonFn.cloneResultSet(props.data);
@@ -69,6 +71,13 @@ function PokemonMenu(props : PokemonMenuProps) {
 
     setSticky( shouldSticky );
   };
+
+//   const itemClicked = (identifier : string) => {
+//     //console.log(`clicked menu item #${index}`);
+//     document
+//       ?.getElementById(identifier)
+//       ?.scrollIntoView();
+//   };
 
   useEffect(() => {
     window
@@ -99,7 +108,7 @@ function PokemonMenu(props : PokemonMenuProps) {
     ?.results
     ?.map((pokemon, index) => {
       return <IndexItem key={"index-" + pokemon.name} className="is-block">
-        <IndexItemLink className="is-size-7" href="#">{pokemon.name}</IndexItemLink>
+        <IndexItemLink className="is-size-7" href={"#" + pokemon.name}>{pokemon.name}</IndexItemLink>
       </IndexItem>
     });
 

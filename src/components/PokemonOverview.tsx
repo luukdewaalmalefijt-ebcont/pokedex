@@ -41,6 +41,8 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
   }
 
   render() {
+    console.log(`[RENDER] PokemonOverview (${this.props.data.name})`);
+
     const img = PokemonFn.getImageUrl(this.props.data);
     const that = this;
 
@@ -81,7 +83,7 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
 
     // url: props.data.url
     return (
-      <Item key={this.props.data.name} className="overview-pokemon" ref={this.state.ref} style={style}>
+      <Item id={this.props.data.name} key={this.props.data.name} className="overview-pokemon" ref={this.state.ref} style={style}>
         <Waypoint
           // let container know the index of the Pokemon that scrolled into view
           // so we can centrally track which is currently showing
