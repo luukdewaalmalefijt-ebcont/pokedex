@@ -19,6 +19,7 @@
     "react-bulma-components": "couds/react-bulma-components#v4.0.0-RC.0",
     "react-dom": "^17.0.2",
     "react-lazy-load-image-component": "^1.5.1",
+    "react-lazyload": "^3.2.0",
     "react-loading-screen": "0.0.17",
     "react-scripts": "4.0.3",
     "react-waypoint": "^9.0.3",
