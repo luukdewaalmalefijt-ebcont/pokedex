@@ -1,5 +1,7 @@
 // @ts-nocheck
 
+// helper for common pattern of registering global event handler
+// in useEffect, and deregistering it upon de-render
 function globalUseEffectListener(eventName, callback) {
   return () => {
     window

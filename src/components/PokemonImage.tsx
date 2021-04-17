@@ -39,19 +39,19 @@ export default function PokemonImage(props : any) {
     (isPlaceholder) ? "placeholder" : ""
   ];
 
-  return <Img
-     className={classes.join(" ")}
-     src={src}
-     loading="lazy"
-   />
+//   return <Img
+//      className={classes.join(" ")}
+//      src={src}
+//      loading="lazy"
+//    />
 
   // TODO: the dedicated lazy component worked fine but worsened performance
-//     return <LazyLoadImage
-//       className="is-inline-block"
-//        height={300}
-//        src={props.src} // use normal <img> attributes as props
-//        placeholderSrc={`/${PLACEHOLDER_IMAGE_NAME}`}
-//        visibleByDefault={!props.placeholder}
-//        //width={image.width}
-//     />
+    return <LazyLoadImage
+      className="is-inline-block"
+       height={300}
+       src={props.src} // use normal <img> attributes as props
+       placeholderSrc={`/${PLACEHOLDER_IMAGE_NAME}`}
+       visibleByDefault={true}
+       //width={image.width}
+    />
 }

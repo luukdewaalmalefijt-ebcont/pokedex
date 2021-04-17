@@ -11,32 +11,74 @@ import PokemonOverview from "./PokemonOverview";
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 
+const Wrapper = styled.div`
+  height: 100vh;
+  width: 300vw;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -100vw;
+`;
+
 interface PokemonListProps {
-   data: INamedApiResourceList<IPokemon>;
+   data: INamedApiResourceList<IPokemon>,
+   currentIndex: number,
+   previousIndex: number
+}
+
+const normalizeIndex = (total : number, index : number) : number => {
+  return (index < 0)
+     ? total + index // add a negative
+     : (
+       (index >= total)
+         ? index - total
+         : index
+     )
+}
+
+const initPokemonAt = (results : Array<INamedApiResource<IPokemon>>, index : number) : any => {
+  const normalizedIndex = normalizeIndex(results.length, index);
+  const pokemon : INamedApiResource<IPokemon> = results[normalizedIndex];
+
+  if (!pokemon) {
+    debugger;
+    console.error(`could not find pokemon at index #${normalizedIndex}`);
+  }
+
+  const img = PokemonFn.getImageUrl(pokemon);
+
+  return <PokemonOverview
+    key={pokemon.name}
+    data={pokemon}
+    index={normalizedIndex}
+  />
+};
+
+const nextIndex = (previous : number, current : number) : number => {
+  if (previous <= current) {
+    return current + 1
+  }
+  else {
+    return current - 1
+  }
 }
 
 function PokemonList(props : PokemonListProps) {
-  // result for allPokemon query
-//   const [allPokemon, setPokemonResult] = useState<INamedApiResourceList<IPokemon>>(props.data);
+  // this should not be neccessary
+  if (!props.data) {
+    return <div>loading...</div>
+  }
 
-  // TODO: turn into own component
-  const items = props.data?.results.map((pokemon, index) => {
-    const img = PokemonFn.getImageUrl(pokemon);
+  const pokemonList = props.data.results;
+  const previous = initPokemonAt(pokemonList, props.currentIndex-1);
+  const current = initPokemonAt(pokemonList, props.currentIndex);
+  const next = initPokemonAt(pokemonList, props.currentIndex+1)
 
-    return <PokemonOverview
-        key={pokemon.name}
-        data={pokemon}
-        index={index}
-
-        onView={() => {
-          //setCurrentInView(index);
-        }}
-      />
-  });
-
-  return <ul>
-    {items}
-  </ul>
+  return <Wrapper>
+    {previous}
+    {current}
+    {next}
+  </Wrapper>
 }
 
 export default React.memo(PokemonList);

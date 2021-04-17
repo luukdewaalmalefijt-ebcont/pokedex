@@ -44,6 +44,9 @@ function App() {
   // index of current pokemon in view
   const [currentInView, setCurrentInView] = useState(0);
 
+  // index of index that was scrolled from, for transition purposes
+  const [previousInView, setPreviousInView] = useState(-1);
+
   // the number of images to preload beyond the viewport
   const POKEMON_IMAGE_PRELOAD_BUFFER = 2;
 
@@ -85,6 +88,10 @@ function App() {
 
     console.log(`current: ${currentInView}`);
 
+    // store previous state for transition purposes.
+    // components can then find out in which direction the transition progressed
+    setPreviousInView(currentInView);
+
     (e.deltaY > 0)
       ? showNext()
       : showPrevious()
@@ -97,25 +104,29 @@ function App() {
       "wheel",
       onScrollThrottled));
 
-//   const content = <div>
-//     <PokemonList data={allPokemon!}/>
-//     <OverlayBlur/>
-//     <PokemonMenu data={allPokemon!}/>
-//   </div>;
-
-  const content = <div>{currentInView}</div>;
+  const content = <div>
+    <PokemonList
+      data={allPokemon!}
+      currentIndex={currentInView}
+      previousIndex={previousInView}/>
+    <OverlayBlur/>
+    <PokemonMenu
+      data={allPokemon!}
+      currentIndex={currentInView}/>
+  </div>;
 
   return (
+    // TODO: turn into own component so we can rid of the property
+    // declarations here
     <LoadingScreen
         loading={isLoading}
         bgColor='#f1f1f1'
         spinnerColor='#c00'
         textColor='#676767'
         logoSrc='/placeholder-pokeball2.png'
-        text='Welcome to EBCONT Pokedex'
-      >
-        {content}
-    </LoadingScreen>
+        text='Welcome to EBCONT Pokedex'>
+          {isLoading ? <span/> : content}
+        </LoadingScreen>
   )
 }
 

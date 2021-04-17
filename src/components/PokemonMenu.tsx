@@ -49,10 +49,12 @@ const IndexItemLink = styled.a`
 
 interface PokemonMenuProps {
   data: INamedApiResourceList<IPokemon>;
+  currentIndex: number
 }
 
 function PokemonMenu(props : PokemonMenuProps) {
   const element = useRef<any>(null);
+
   const [isSticky, setSticky] = useState(false);
 
   // clone resultset to prevent sorting the original reference
