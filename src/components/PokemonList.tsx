@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import { Tile } from 'react-bulma-components';
 
 import '../App.scss';
+import tileBackground from "../backgrounds/dbvfogs-4f2c3dd5-b13e-49c3-8e41-150a7ed95c01.png";
 import PokemonFn from "../fns/pokemon";
 import PokemonOverview from "./PokemonOverview";
 import PokemonImage from "./PokemonImage";
@@ -18,6 +19,50 @@ import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 
 const Wrapper = styled.div`
+  .tile-background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    leftL 0;
+    bottom: 0;
+    //background-image: url('/static/media/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg');
+    background-image: url(${tileBackground});
+    background-repeat: no-repeat;
+    //background-attachment: fixed;
+    background-size: cover;
+    filter: blur(7px);
+    transition: all 0.75s;
+  }
+
+  .pokemon-tile {
+    transition: all 0.75s;
+
+    .box {
+      border-radius: 7px;
+      border: 2px solid #333;
+    }
+
+    h2 {
+      color: white;
+      font-weight: bold;
+    }
+
+    img.pokemon-image {
+      max-height: 250px;
+      min-height: 250px;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+      z-index: 5;
+
+      .tile-background {
+        //transition: all 0.75s;
+        filter: blur(0px);
+      }
+    }
+  }
+
   /* This fires as soon as the element enters the DOM */
   .pokemon-item-enter{
     opacity: 0;
@@ -69,25 +114,28 @@ function PokemonList(props : PokemonListProps) {
       .value
       .map((pokemon : INamedApiResource<IPokemon>) => {
         const placeholder = <PokemonImage placeholder={true}/>;
-        return <Tile size={3}>
-          <LazyLoad placeholder={ placeholder } key={ pokemon.name } offset={ 300 } once={ true }>
+        return <Tile size={3} kind="child" className="pokemon-tile is-relative px-3">
+          <LazyLoad className="" placeholder={ placeholder } key={ pokemon.name } offset={ 300 } once={ true } unmountIfInvisible={ true }>
             <CSSTransition
-                classNames="pokemon-item"
-                timeout={500}
-                appear
-              >
+              classNames="pokemon-item"
+              timeout={500}
+              appear
+            >
+              <div className="box is-relative py-5">
+                <div className="tile-background"/>
                 <PokemonOverview
                   key={pokemon.name}
                   data={pokemon}
                   index={-1} // todo
                 />
+              </div>
             </CSSTransition>
           </LazyLoad>
         </Tile>
       });
 
     parentTiles.push(
-      <Tile key={parentTiles.length} kind="parent" size={12}>
+      <Tile key={parentTiles.length} kind="parent" className="my-6" size={12}>
         {tiles}
       </Tile>
     );

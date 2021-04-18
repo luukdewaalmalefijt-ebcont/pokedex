@@ -10,11 +10,12 @@
 @import '~bulma/sass/grid/_all.sass';
 
 body {
-  background-image: url('backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg');
+  /*background-image: url('backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg');
   background-image: url('backgrounds/dbvfogs-4f2c3dd5-b13e-49c3-8e41-150a7ed95c01.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: cover;*/
+  background: #222;
 }
 
 .App {
@@ -54,8 +55,4 @@ body {
   to {
     transform: rotate(360deg);
   }
-}
-
-img.pokemon-image {
-  max-height: 300px;
 }

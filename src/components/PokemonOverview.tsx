@@ -47,14 +47,14 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     const that = this;
 
     return (
-      <Item key={this.props.data.name} className="overview-pokemon" ref={this.state.ref}>
+      <Item key={this.props.data.name} className="overview-pokemon is-relative" ref={this.state.ref}>
         <Container className="has-text-centered">
           <PokemonImage
             src={img}
             placeholder={!this.state.loadImg}
             height={300}
           />
-          <h2 className="is-size-2">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
+          <h2 className="is-size-3">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
         </Container>
       </Item>
     )
