@@ -41,15 +41,6 @@ function App() {
   // constant for the number of pokemon on the set
   const [POKEMON_COUNT, setPokemonCount] = useState(0);
 
-  // index of current pokemon in view
-  const [currentInView, setCurrentInView] = useState(0);
-
-  // index of index that was scrolled from, for transition purposes
-  const [previousInView, setPreviousInView] = useState(-1);
-
-  // the number of images to preload beyond the viewport
-  const POKEMON_IMAGE_PRELOAD_BUFFER = 2;
-
   // effect for first data load
   useMemo(() => {
     PokeAPI
@@ -62,57 +53,21 @@ function App() {
       });
   }, []);
 
-  const showNext = () => {
-    let newIndex = currentInView + 1;
+  const menu = <PokemonMenu
+    data={allPokemon!}
+    currentIndex={0}
+  />;
 
-    if (newIndex >= POKEMON_COUNT) {
-      newIndex = newIndex - POKEMON_COUNT;
-    }
+  const lister = <PokemonList
+    data={allPokemon!}
+    currentIndex={0}
+    previousIndex={0}
+  />;
 
-    setCurrentInView(newIndex);
-  };
-
-  const showPrevious = () => {
-    let newIndex = currentInView - 1;
-
-    // start over from end of list, creating infinite browse
-    if (newIndex < 0) {
-      newIndex = POKEMON_COUNT - newIndex;
-    }
-
-    setCurrentInView(newIndex);
-  };
-
-  const onScroll = ( e : any ) => {
-    if (isLoading) return;
-
-    console.log(`current: ${currentInView}`);
-
-    // store previous state for transition purposes.
-    // components can then find out in which direction the transition progressed
-    setPreviousInView(currentInView);
-
-    (e.deltaY > 0)
-      ? showNext()
-      : showPrevious()
-  };
-
-  const onScrollThrottled = useThrottle(onScroll, 50);
-
-  useEffect(
-    Utils.globalUseEffectListener(
-      "wheel",
-      onScrollThrottled));
+  const overlayBlur = <OverlayBlur/>;
 
   const content = <div>
-    <PokemonList
-      data={allPokemon!}
-      currentIndex={currentInView}
-      previousIndex={previousInView}/>
-    <OverlayBlur/>
-    <PokemonMenu
-      data={allPokemon!}
-      currentIndex={currentInView}/>
+    {lister}
   </div>;
 
   return (

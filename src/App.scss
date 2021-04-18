@@ -7,6 +7,7 @@
 @import "~bulma/sass/base/_all.sass";
 @import '~bulma/sass/helpers/_all.sass';
 @import '~bulma/sass/layout/hero.sass';
+@import '~bulma/sass/grid/_all.sass';
 
 body {
   background-image: url('backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg');
@@ -53,4 +54,8 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+img.pokemon-image {
+  max-height: 300px;
 }

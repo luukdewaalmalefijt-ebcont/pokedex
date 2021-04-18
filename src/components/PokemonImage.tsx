@@ -1,4 +1,5 @@
 import '../App.scss';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 import styled, { css } from 'styled-components';
 import React, { useState, useEffect, useMemo } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -9,7 +10,8 @@ const PLACEHOLDER_IMAGE_NAME = "placeholder-pokeball2.png";
 
 const Img = styled.img`
   opacity: 1;
-  height: 300px;
+  max-height: 300px;
+  min-height: 300px;
 
   ${props => props?.src?.includes(PLACEHOLDER_IMAGE_NAME) && css`
     //animation: App-logo-spin infinite 20s linear;
@@ -46,12 +48,11 @@ export default function PokemonImage(props : any) {
 //    />
 
   // TODO: the dedicated lazy component worked fine but worsened performance
-    return <LazyLoadImage
-      className="is-inline-block"
-       height={300}
-       src={props.src} // use normal <img> attributes as props
-       placeholderSrc={`/${PLACEHOLDER_IMAGE_NAME}`}
-       visibleByDefault={true}
-       //width={image.width}
-    />
+  return <LazyLoadImage
+    className="is-inline-block pokemon-image"
+     src={props.src} // use normal <img> attributes as props
+     placeholderSrc={`/${PLACEHOLDER_IMAGE_NAME}`}
+     effect="opacity"
+     width={300}
+  />
 }

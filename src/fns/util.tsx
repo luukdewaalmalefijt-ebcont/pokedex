@@ -18,6 +18,12 @@ function globalUseEffectListener(eventName, callback) {
   }
 }
 
+// https://stackoverflow.com/a/37644329/399058
+function* chunkArrayInGroups(arr : any, size : number) {
+  for (var i=0; i<arr.length; i+=size)
+    yield arr.slice(i, i+size);
+}
+
 // https://jsfiddle.net/jonathansampson/m7G64/
 // TODO: this impl seems to not correctly pass events
 function throttle (callback : any, limit : number) {
@@ -83,8 +89,37 @@ function debounce(func : any, wait = 20, immediate = true) {
   }
 }
 
+const normalizeIndex = (total : number, index : number) : number => {
+  return (index < 0)
+     ? total + index // add a negative
+     : (
+       (index >= total)
+         ? index - total
+         : index
+     )
+}
+
+const nextIndex = (previous : number, current : number) : number => {
+  if (previous <= current) {
+    return current + 1
+  }
+  else {
+    return current - 1
+  }
+}
+
 export default {
+  // hook utils
   globalUseEffectListener,
+
+  // perf
   throttle, throttle2,
-  debounce
+  debounce,
+
+  // arrays
+  chunkArrayInGroups,
+
+  // indexes
+  normalizeIndex,
+  nextIndex
 }

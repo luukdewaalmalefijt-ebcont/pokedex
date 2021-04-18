@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import LazyLoad from 'react-lazyload';
+import { CSSTransition } from 'react-transition-group';
 import styled, { css } from 'styled-components';
+import { Tile } from 'react-bulma-components';
 
 import '../App.scss';
 import PokemonFn from "../fns/pokemon";
 import PokemonOverview from "./PokemonOverview";
+import PokemonImage from "./PokemonImage";
+import Utils from "../fns/util";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
@@ -12,55 +18,36 @@ import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 
 const Wrapper = styled.div`
-  height: 100vh;
-  width: 300vw;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: -100vw;
+  /* This fires as soon as the element enters the DOM */
+  .pokemon-item-enter{
+    opacity: 0;
+    transition: all;
+    position: relative;
+    top: 300px;
+  }
+
+  /* This is where we can add the transition*/
+  .pokemon-item-enter-active{
+    opacity: 1;
+    top: 0;
+  }
+
+  /* This fires as soon as the element is invisible */
+  .pokemon-item-exit{
+
+  }
+
+  /* fires as element leaves the DOM*/
+  .pokemon-item-exit-active{
+    opacity: 0;
+    top: 300px;
+  }
 `;
 
 interface PokemonListProps {
    data: INamedApiResourceList<IPokemon>,
    currentIndex: number,
    previousIndex: number
-}
-
-const normalizeIndex = (total : number, index : number) : number => {
-  return (index < 0)
-     ? total + index // add a negative
-     : (
-       (index >= total)
-         ? index - total
-         : index
-     )
-}
-
-const initPokemonAt = (results : Array<INamedApiResource<IPokemon>>, index : number) : any => {
-  const normalizedIndex = normalizeIndex(results.length, index);
-  const pokemon : INamedApiResource<IPokemon> = results[normalizedIndex];
-
-  if (!pokemon) {
-    debugger;
-    console.error(`could not find pokemon at index #${normalizedIndex}`);
-  }
-
-  const img = PokemonFn.getImageUrl(pokemon);
-
-  return <PokemonOverview
-    key={pokemon.name}
-    data={pokemon}
-    index={normalizedIndex}
-  />
-};
-
-const nextIndex = (previous : number, current : number) : number => {
-  if (previous <= current) {
-    return current + 1
-  }
-  else {
-    return current - 1
-  }
 }
 
 function PokemonList(props : PokemonListProps) {
@@ -70,14 +57,48 @@ function PokemonList(props : PokemonListProps) {
   }
 
   const pokemonList = props.data.results;
-  const previous = initPokemonAt(pokemonList, props.currentIndex-1);
-  const current = initPokemonAt(pokemonList, props.currentIndex);
-  const next = initPokemonAt(pokemonList, props.currentIndex+1)
+
+  // create generator for splitting list in groups of 4 for layout
+  const pokemonListGenerator = Utils.chunkArrayInGroups(pokemonList, 4);
+
+  let parentTiles = [];
+  let genNext = pokemonListGenerator.next();
+
+  while (!genNext.done) {
+    const tiles = genNext
+      .value
+      .map((pokemon : INamedApiResource<IPokemon>) => {
+        const placeholder = <PokemonImage placeholder={true}/>;
+        return <Tile size={3}>
+          <LazyLoad placeholder={ placeholder } key={ pokemon.name } offset={ 300 } once={ true }>
+            <CSSTransition
+                classNames="pokemon-item"
+                timeout={500}
+                appear
+              >
+                <PokemonOverview
+                  key={pokemon.name}
+                  data={pokemon}
+                  index={-1} // todo
+                />
+            </CSSTransition>
+          </LazyLoad>
+        </Tile>
+      });
+
+    parentTiles.push(
+      <Tile key={parentTiles.length} kind="parent" size={12}>
+        {tiles}
+      </Tile>
+    );
+
+    genNext = pokemonListGenerator.next();
+  }
 
   return <Wrapper>
-    {previous}
-    {current}
-    {next}
+    <Tile kind="ancestor" size={12} vertical={true}>
+      {parentTiles}
+    </Tile>
   </Wrapper>
 }
 

@@ -11,16 +11,15 @@ import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-type
 
 const { Header, Body, Footer } = Hero;
 
-const Item = styled.li`
-  width: 100vw;
-  height: 100vh;
-  display: inline-block;
+const Item = styled.div`
+  //width: 100vw;
+  //height: 100vh;
+  //display: inline-block;
 `;
 
 interface PokemonOverviewProps {
    data: INamedApiResource<IPokemon>;
    index: number;
-//    onView: any;
 }
 
 interface PokemonOverviewState {
@@ -47,31 +46,16 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     const img = PokemonFn.getImageUrl(this.props.data);
     const that = this;
 
-    const style = {
-      opacity:
-        1 - this.state.displacement,
-        // this.state.loadImg ? (1 - this.state.displacement) : 1,
-      transitionProperty:
-        "opacity",
-      transitionDuration:
-        "100ms"
-    };
-
-    // url: props.data.url
     return (
-      <Item key={this.props.data.name} className="overview-pokemon" ref={this.state.ref} style={style}>
-        <Hero size="fullheight">
-          <Body>
-            <Container className="has-text-centered">
-              <PokemonImage
-                src={img}
-                placeholder={!this.state.loadImg}
-                height={300}
-              />
-              <h2 className="is-size-2">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
-            </Container>
-          </Body>
-        </Hero>
+      <Item key={this.props.data.name} className="overview-pokemon" ref={this.state.ref}>
+        <Container className="has-text-centered">
+          <PokemonImage
+            src={img}
+            placeholder={!this.state.loadImg}
+            height={300}
+          />
+          <h2 className="is-size-2">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
+        </Container>
       </Item>
     )
   }
