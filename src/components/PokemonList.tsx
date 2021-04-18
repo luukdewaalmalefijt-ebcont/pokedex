@@ -38,27 +38,48 @@ const Wrapper = styled.div`
     transition: all 0.75s;
 
     .box {
+      transition: all 0.75s;
       border-radius: 7px;
-      border: 2px solid #333;
+      border: 5px solid #333;
+      box-sizing: border-box;
     }
 
     h2 {
+      transition: all 0.75s;
       color: white;
       font-weight: bold;
+      opacity: 0.7;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     img.pokemon-image {
+      transition: all 0.7s;
       max-height: 250px;
       min-height: 250px;
+      opacity: 0.8;
     }
 
     &:hover {
-      transform: scale(1.1);
-      z-index: 5;
+      .box {
+        transform: scale(1.1);
+        z-index: 5;
+        border: 5px solid rgba(255, 255, 255, 0.7);
 
-      .tile-background {
-        //transition: all 0.75s;
-        filter: blur(0px);
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+        h2 {
+          opacity: 1;
+          text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .tile-background {
+          //transition: all 0.75s;
+          filter: blur(0px);
+        }
+
+        img.pokemon-image {
+          opacity: 1;
+        }
       }
     }
   }
