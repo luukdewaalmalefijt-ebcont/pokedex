@@ -12,21 +12,21 @@ import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-type
 const { Header, Body, Footer } = Hero;
 
 const Item = styled.div`
-  //width: 100vw;
-  //height: 100vh;
-  //display: inline-block;
+  //
 `;
 
 interface PokemonOverviewProps {
    data: INamedApiResource<IPokemon>;
    index: number;
+   onClick: any
 }
 
 interface PokemonOverviewState {
    isVisible: boolean,
    ref: any;
    displacement: number,
-   loadImg: boolean
+   loadImg: boolean,
+   showDetails: boolean,
 }
 
 // TODO: props typing
@@ -38,7 +38,8 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
       isVisible: true,
       ref: React.createRef(),
       displacement: 0,
-      loadImg: true
+      loadImg: true,
+      showDetails: false
     };
   }
 
@@ -46,16 +47,25 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
     const img = PokemonFn.getImageUrl(this.props.data);
     const that = this;
 
+    const classes = [
+      "overview-pokemon",
+      "is-relative",
+    ];
+
     return (
-      <Item key={this.props.data.name} className="overview-pokemon is-relative" ref={this.state.ref}>
-        <Container className="has-text-centered">
-          <PokemonImage
-            src={img}
-            placeholder={!this.state.loadImg}
-            height={300}
-          />
-          <h2 className="is-size-3">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
-        </Container>
+      <Item
+        key={this.props.data.name}
+        onClick={this.props.onClick || (() => {})}
+        className={classes.join(" ")}
+        ref={this.state.ref}>
+          <Container className="has-text-centered">
+            <PokemonImage
+              src={img}
+              placeholder={!this.state.loadImg}
+              height={300}
+            />
+            <h2 className="is-size-3">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
+          </Container>
       </Item>
     )
   }

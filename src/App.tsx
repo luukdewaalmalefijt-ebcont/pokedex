@@ -8,6 +8,7 @@ import PokemonFn from "./fns/pokemon";
 import PokemonList from "./components/PokemonList";
 import PokemonOverview from "./components/PokemonOverview";
 import PokemonMenu from "./components/PokemonMenu";
+import PokemonDetail from "./components/PokemonDetail";
 import useThrottle from "./hooks/throttle";
 
 // while this TS wrapper is handy, I would have wrapped it
@@ -41,6 +42,9 @@ function App() {
   // constant for the number of pokemon on the set
   const [POKEMON_COUNT, setPokemonCount] = useState(0);
 
+  // the pokemon instance to show in detail overlay
+  const [detailPokemon, setDetailPokemon] = useState<INamedApiResource<IPokemon>>();
+
   // effect for first data load
   useMemo(() => {
     PokeAPI
@@ -53,6 +57,16 @@ function App() {
       });
   }, []);
 
+  const openDetails = (pokemon : INamedApiResource<IPokemon>) => {
+    document.documentElement.classList.add('no-scroll');
+    setDetailPokemon(pokemon);
+  };
+
+  const closeDetails = () => {
+    document.documentElement.classList.remove('no-scroll');
+    setDetailPokemon(undefined)
+  }
+
   const menu = <PokemonMenu
     data={allPokemon!}
     currentIndex={0}
@@ -62,12 +76,20 @@ function App() {
     data={allPokemon!}
     currentIndex={0}
     previousIndex={0}
+    onShowDetail={openDetails}
+    detailsOpened={!!detailPokemon}
   />;
 
   const overlayBlur = <OverlayBlur/>;
 
+  const detailView = <PokemonDetail
+    pokemon={detailPokemon}
+    onDismiss={closeDetails}
+  />
+
   const content = <div>
     {lister}
+    {detailView}
   </div>;
 
   return (

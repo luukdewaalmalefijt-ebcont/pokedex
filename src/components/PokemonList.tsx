@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 import { Tile } from 'react-bulma-components';
 
 import '../App.scss';
-import tileBackground from "../backgrounds/dbvfogs-4f2c3dd5-b13e-49c3-8e41-150a7ed95c01.png";
+import tileBackground from "../backgrounds/dbvfogs-4f2c3dd5-b13e-49c3-8e41-150a7ed95c01.jpg";
 import PokemonFn from "../fns/pokemon";
 import PokemonOverview from "./PokemonOverview";
 import PokemonImage from "./PokemonImage";
@@ -19,11 +19,18 @@ import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 
 const Wrapper = styled.div`
+  transition: filter 1s;
+
+  &.details-opened {
+    filter: blur(5px);
+    pointer-events: none;
+  }
+
   .tile-background {
     position: absolute;
     top: 0;
     width: 100%;
-    leftL 0;
+    left: 0;
     bottom: 0;
     //background-image: url('/static/media/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg');
     background-image: url(${tileBackground});
@@ -59,7 +66,7 @@ const Wrapper = styled.div`
       opacity: 0.8;
     }
 
-    &:hover {
+    &:not(.details-opened):hover {
       .box {
         transform: scale(1.1);
         z-index: 5;
@@ -69,6 +76,7 @@ const Wrapper = styled.div`
 
         h2 {
           opacity: 1;
+          z-index: 6;
           text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         }
 
@@ -79,6 +87,7 @@ const Wrapper = styled.div`
 
         img.pokemon-image {
           opacity: 1;
+          z-index: 6;
         }
       }
     }
@@ -113,7 +122,9 @@ const Wrapper = styled.div`
 interface PokemonListProps {
    data: INamedApiResourceList<IPokemon>,
    currentIndex: number,
-   previousIndex: number
+   previousIndex: number,
+   onShowDetail: any,
+   detailsOpened: boolean
 }
 
 function PokemonList(props : PokemonListProps) {
@@ -135,7 +146,7 @@ function PokemonList(props : PokemonListProps) {
       .value
       .map((pokemon : INamedApiResource<IPokemon>) => {
         const placeholder = <PokemonImage placeholder={true}/>;
-        return <Tile size={3} kind="child" className="pokemon-tile is-relative px-3">
+        return <Tile size={3} kind="child" key={pokemon.name} className="pokemon-tile is-relative px-3">
           <LazyLoad className="" placeholder={ placeholder } key={ pokemon.name } offset={ 300 } once={ true } unmountIfInvisible={ true }>
             <CSSTransition
               classNames="pokemon-item"
@@ -148,6 +159,7 @@ function PokemonList(props : PokemonListProps) {
                   key={pokemon.name}
                   data={pokemon}
                   index={-1} // todo
+                  onClick={() => props.onShowDetail(pokemon)}
                 />
               </div>
             </CSSTransition>
@@ -164,7 +176,7 @@ function PokemonList(props : PokemonListProps) {
     genNext = pokemonListGenerator.next();
   }
 
-  return <Wrapper>
+  return <Wrapper className={props.detailsOpened ? "details-opened" : ""}>
     <Tile kind="ancestor" size={12} vertical={true}>
       {parentTiles}
     </Tile>
