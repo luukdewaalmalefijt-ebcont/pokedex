@@ -3,10 +3,13 @@ import styled, { css } from 'styled-components';
 
 import logo from './logo.svg';
 import './App.scss';
+import Utils from "./fns/util";
 import PokemonFn from "./fns/pokemon";
 import PokemonList from "./components/PokemonList";
 import PokemonOverview from "./components/PokemonOverview";
 import PokemonMenu from "./components/PokemonMenu";
+import PokemonDetail from "./components/PokemonDetail";
+import useThrottle from "./hooks/throttle";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
@@ -36,13 +39,11 @@ function App() {
   // result for allPokemon query
   const [allPokemon, setPokemonResult] = useState<INamedApiResourceList<IPokemon>>();
 
-  // index of current pokemon in view
-  const [currentInView, setCurrentInView] = useState(0);
+  // constant for the number of pokemon on the set
+  const [POKEMON_COUNT, setPokemonCount] = useState(0);
 
-  // the number of images to preload beyond the viewport
-  const POKEMON_IMAGE_PRELOAD_BUFFER = 2;
-
-  console.log(`[RENDER] App`);
+  // the pokemon instance to show in detail overlay
+  const [detailPokemon, setDetailPokemon] = useState<INamedApiResource<IPokemon>>();
 
   // effect for first data load
   useMemo(() => {
@@ -52,26 +53,57 @@ function App() {
       .then((result) => {
         setPokemonResult(result);
         setLoading(false);
+        setPokemonCount(result.results.length);
       });
   }, []);
 
+  const openDetails = (pokemon : INamedApiResource<IPokemon>) => {
+    document.documentElement.classList.add('no-scroll');
+    setDetailPokemon(pokemon);
+  };
+
+  const closeDetails = () => {
+    document.documentElement.classList.remove('no-scroll');
+    setDetailPokemon(undefined)
+  }
+
+  const menu = <PokemonMenu
+    data={allPokemon!}
+    currentIndex={0}
+  />;
+
+  const lister = <PokemonList
+    data={allPokemon!}
+    currentIndex={0}
+    previousIndex={0}
+    onShowDetail={openDetails}
+    detailsOpened={!!detailPokemon}
+  />;
+
+  const overlayBlur = <OverlayBlur/>;
+
+  const detailView = <PokemonDetail
+    pokemon={detailPokemon}
+    onDismiss={closeDetails}
+  />
+
   const content = <div>
-    <PokemonList data={allPokemon!}/>
-    <OverlayBlur/>
-    <PokemonMenu data={allPokemon!}/>
+    {lister}
+    {detailView}
   </div>;
 
   return (
+    // TODO: turn into own component so we can rid of the property
+    // declarations here
     <LoadingScreen
         loading={isLoading}
         bgColor='#f1f1f1'
         spinnerColor='#c00'
         textColor='#676767'
         logoSrc='/placeholder-pokeball2.png'
-        text='Welcome to EBCONT Pokedex'
-      >
-        {content}
-    </LoadingScreen>
+        text='Welcome to EBCONT Pokedex'>
+          {isLoading ? <span/> : content}
+        </LoadingScreen>
   )
 }
 

@@ -49,13 +49,13 @@ const IndexItemLink = styled.a`
 
 interface PokemonMenuProps {
   data: INamedApiResourceList<IPokemon>;
+  currentIndex: number
 }
 
 function PokemonMenu(props : PokemonMenuProps) {
   const element = useRef<any>(null);
-  const [isSticky, setSticky] = useState(false);
 
-  console.log(`[RENDER] PokemonMenu`);
+  const [isSticky, setSticky] = useState(false);
 
   // clone resultset to prevent sorting the original reference
   // and messing up the "natural" pokedex order
@@ -71,13 +71,6 @@ function PokemonMenu(props : PokemonMenuProps) {
 
     setSticky( shouldSticky );
   };
-
-//   const itemClicked = (identifier : string) => {
-//     //console.log(`clicked menu item #${index}`);
-//     document
-//       ?.getElementById(identifier)
-//       ?.scrollIntoView();
-//   };
 
   useEffect(() => {
     window
@@ -108,7 +101,7 @@ function PokemonMenu(props : PokemonMenuProps) {
     ?.results
     ?.map((pokemon, index) => {
       return <IndexItem key={"index-" + pokemon.name} className="is-block">
-        <IndexItemLink className="is-size-7" href={"#" + pokemon.name}>{pokemon.name}</IndexItemLink>
+        <IndexItemLink className="is-size-7" href="#">{pokemon.name}</IndexItemLink>
       </IndexItem>
     });
 
