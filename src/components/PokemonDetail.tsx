@@ -7,12 +7,14 @@ import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource, IAbility, IType, IMove } from "pokeapi-typescript";
 import { Tabs, Image } from 'react-bulma-components';
 
+import Utils from "../fns/util";
 import PokemonFn from "../fns/pokemon";
 import AbilityFn from "../fns/ability";
+
 import PokemonImage from "./PokemonImage";
-import PokemonAbility from "./PokemonAbility";
-import PokemonType from "./PokemonType";
-import PokemonMoves from "./PokemonMoves";
+import PokemonAbilityList from "./PokemonAbilityList";
+import PokemonTypeList from "./PokemonTypeList";
+import PokemonMoveList from "./PokemonMoveList";
 import tileBackground from "../backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg";
 
 const Tab = Tabs.Tab;
@@ -27,7 +29,7 @@ const BlurBackground = styled.div`
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   //left: -100vw;
   top: 0;
   //bottom: 0;
@@ -35,11 +37,7 @@ const Wrapper = styled.div`
   transition: left 0.5s;
   overflow-y: scroll;
   overflow-x: hidden;
-
-  // TODO: replace with bulma
-  h2 {
-    color: white;
-  }
+  color: white;
 
   .background {
     //background: url(${tileBackground});
@@ -63,6 +61,16 @@ const Wrapper = styled.div`
     //box-shadow: rgba(0, 0, 0, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     //background: black;
     //filter: blur(0);
+
+    // TODO: replace with bulma
+    h2, .tabs li a {
+      color: white;
+      font-weight: bold;
+    }
+
+    ul {
+      margin: 0;
+    }
   }
 
   &.show {
@@ -88,39 +96,35 @@ interface PokemonDetailProps {
    onDismiss: any
 }
 
+const TAB_ABILITY = 'ability';
+const TAB_MOVES = 'moves';
+
 // typings for tab pane index
-type TabKey = 'ability' | 'moves';
+type TabKey = typeof TAB_ABILITY | typeof TAB_MOVES;
 type TabPanes = {[key in TabKey]: any};
 
 export default function PokemonDetail(props : any) {
   const [ability, setAbility] = useState<IAbility>();
-  const [type, setType] = useState<IType>();
-  const [moves, setMoves] = useState<IMove>();
-  const [activeTab, setActiveTab] = useState<TabKey>("ability");
+  const [details, setDetails] = useState<IPokemon>();
+  const [activeTab, setActiveTab] = useState<TabKey>(TAB_ABILITY);
+
+  // helper for dumping api response data when debugging
+  const logAndSet = (setter : any, desc : string) => {
+    return (data : any) => {
+      console.log(desc + ":");
+      console.log(data);
+      return setter(data);
+    }
+  };
 
   useEffect(() => {
-    if (props.pokemon && !!!ability) {
-      const index = PokemonFn.getIndex(props.pokemon);
-
-      // load pokemon abilities
+    if (props.pokemon /*&& !!!ability*/) {
       PokeAPI
-        .Ability
-        .fetch(index)
-        .then(setAbility);
-
-      // load type
-      PokeAPI
-        .Type
-        .fetch(index)
-        .then(setType);
-
-      // load moves
-      PokeAPI
-        .Move
-        .fetch(index)
-        .then(setMoves);
+        .Pokemon
+        .fetch(PokemonFn.getIndex(props.pokemon))
+        .then(setDetails)
     }
-  });
+  }, [props]);
 
   // edge case that shoujld not happen
   if (!props.pokemon) {
@@ -141,13 +145,15 @@ export default function PokemonDetail(props : any) {
   />;
 
   // description of its abilities
-  const abilityEl = (!!!ability) ? <span/> : <PokemonAbility ability={ability}/>
+  const abilityEl = <PokemonAbilityList items={(details?.abilities || [])}/>;
 
   // tag element for its type
-  const typeEl = (!!!type) ? <span/> : <PokemonType type={type}/>
+  const typeEl = <PokemonTypeList items={(details?.types || [])}/>;
 
   // pane element for moves
-  const movesEl = (!!!moves) ? <span/> : <PokemonMoves moves={moves}/>
+  const movesEl = <PokemonMoveList items={(details?.moves || [])}/>;
+
+  console.log(details);
 
   // switchboard for all tab panes
   const panes : TabPanes = {
@@ -155,7 +161,25 @@ export default function PokemonDetail(props : any) {
     'moves': movesEl
   };
 
-  return <Wrapper className="detail-view show columns">
+  const tabsComponent = <div>
+    {/* active tab content */}
+    {panes[activeTab]}
+
+    <Tabs fullwidth align="center" type="toggle">
+      <Tab active={activeTab == TAB_ABILITY} onClick={() => {setActiveTab(TAB_ABILITY)}}>
+        Ability
+      </Tab>
+      <Tab active={activeTab == TAB_MOVES} onClick={() => {setActiveTab(TAB_MOVES)}}>
+        Moves
+      </Tab>
+    </Tabs>
+  </div>
+
+  const style = {
+//     marginTop: `${initialOffset}px`
+  };
+
+  return <Wrapper className="detail-view show columns" style={style}>
     {/* first column */}
     <div className="content column is-two-fifths is-relative">
       <div className="background"/>
@@ -172,19 +196,7 @@ export default function PokemonDetail(props : any) {
         </h2>
 
         {/* tab panels */}
-        <div>
-          {/* active tab content */}
-          {panes[activeTab]}
-
-          <Tabs fullwidth align="center" type="toggle">
-            <Tab active={activeTab == "ability"}>
-              Ability
-            </Tab>
-            <Tab active={activeTab == "moves"}>
-              Moves
-            </Tab>
-          </Tabs>
-        </div>
+        {tabsComponent}
       </div>
     </div>
 

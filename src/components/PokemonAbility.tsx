@@ -1,9 +1,11 @@
 import '../App.scss';
 import styled, { css } from 'styled-components';
 import React, { useState, useEffect, useMemo } from 'react';
+import PokeAPI from "pokeapi-typescript";
 
 import { IAbility } from "pokeapi-typescript";
 
+import Utils from "../fns/util";
 import PokemonFn from "../fns/pokemon";
 import AbilityFn from "../fns/ability";
 
@@ -16,8 +18,21 @@ interface PokemonAbilityProps {
 }
 
 export default function PokemonAbility(props : any) {
+  const [data, setData] = useState<IAbility>();
+
+  useEffect(() => {
+    PokeAPI
+      .Ability
+      .fetch(Utils.getId(props.ability.url))
+      .then(setData)
+  }, ["data"]);
+
+  if (!!!data) {
+    return <span className="ability loading"/>
+  }
+
   const items = AbilityFn
-    .getEntriesEn(props.ability)
+    .getEntriesEn(data)
     .map((entry, i) =>
       <li key={i}>
         <span className="long">
