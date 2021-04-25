@@ -37,13 +37,16 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   // result for allPokemon query
-  const [allPokemon, setPokemonResult] = useState<INamedApiResourceList<IPokemon>>();
+  const [allPokemon, setPokemonResult]
+    = useState<INamedApiResourceList<IPokemon>>();
 
   // constant for the number of pokemon on the set
-  const [POKEMON_COUNT, setPokemonCount] = useState(0);
+  const [POKEMON_COUNT, setPokemonCount]
+    = useState(0);
 
   // the pokemon instance to show in detail overlay
-  const [detailPokemon, setDetailPokemon] = useState<INamedApiResource<IPokemon>>();
+  const [detailPokemon, setDetailPokemon]
+    = useState<INamedApiResource<IPokemon>>();
 
   // effect for first data load
   useMemo(() => {
@@ -58,12 +61,22 @@ function App() {
   }, []);
 
   const openDetails = (pokemon : INamedApiResource<IPokemon>) => {
-    document.documentElement.classList.add('no-scroll');
+    document
+      .documentElement
+      .classList
+      .add(
+        'no-scroll');
+
     setDetailPokemon(pokemon);
   };
 
   const closeDetails = () => {
-    document.documentElement.classList.remove('no-scroll');
+    document
+      .documentElement
+      .classList
+      .remove(
+        'no-scroll');
+
     setDetailPokemon(undefined)
   }
 
