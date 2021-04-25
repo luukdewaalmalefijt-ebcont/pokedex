@@ -64,3 +64,67 @@ html, body {
     transform: rotate(360deg);
   }
 }
+
+/* workaround for problem with Bulma Tag element that doesnt accept background styling */
+.tag.type {
+  color: white;
+
+  &.normal {
+    background: whitesmoke !important;
+    color: #666;
+  }
+  &.fighting {
+    background: lightbrown !important;
+    color: #666;
+  }
+  &.grass {
+    background: green !important;
+  }
+  &.water {
+    background: darkblue !important;
+  }
+  &.fire {
+    background: red !important;
+  }
+  &.electric {
+    background: yellow !important;
+    color: #666;
+  }
+  &.ice {
+    background: lightblue !important;
+  }
+  &.poison {
+    background: purple !important;
+  }
+  &.ground {
+    background: saddlebrown !important;
+  }
+  &.flying {
+    background: blue !important;
+  }
+  &.psychic {
+    background: pink !important;
+  }
+  &.bug {
+    background: lightgreen !important;
+  }
+  &.rock {
+    background: darkgray !important;
+  }
+  &.ghost {
+    background: whitesmoke !important;
+    color: #666;
+  }
+  &.dragon {
+    background: darkyellow !important;
+  }
+  &.dark {
+    background: black !important;
+  }
+  &.steel {
+    background: gray !important;
+  }
+  &.fairy {
+    background: lightpink !important;
+  }
+}
