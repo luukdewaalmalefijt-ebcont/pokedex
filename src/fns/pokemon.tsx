@@ -1,4 +1,5 @@
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
+import Utils from "./util";
 
 // alternatively: fork this into /public: https://github.com/jnovack/pokemon-svg
 // TODO: this resolving logic is temporary until we collect
@@ -60,8 +61,7 @@ function getImageUrl(pokemon : INamedApiResource<IPokemon>) : string {
 }
 
 function getIndex(pokemon : INamedApiResource<IPokemon>) : number {
-  const parts = pokemon.url.split("/");
-  return parseInt(parts[parts.length-2]) // 2 due to trailing slash
+  return Utils.getId(pokemon.url)
 }
 
 function cloneResultSet(inputset : INamedApiResourceList<IPokemon> | undefined) : INamedApiResourceList<IPokemon> | undefined {

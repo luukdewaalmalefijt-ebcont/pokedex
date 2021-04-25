@@ -18,6 +18,27 @@ function globalUseEffectListener(eventName, callback) {
   }
 }
 
+function getId(url : string) : number {
+  const parts = url.split("/");
+  return parseInt(parts[parts.length-2]) // 2 due to trailing slash
+}
+
+function filterI18NEntriesEN(entrylist: Array<any>) : Array<any> {
+  return entrylist
+    .filter(entry =>
+      "en" == entry
+        .language
+        .name)
+}
+
+function getI18NEntryEN(entrylist: Array<any>) : string {
+  return filterI18NEntriesEN(entrylist)[0].name
+}
+
+function capitalize(s) : string {
+  return s.replace(/^\w/, c => c.toUpperCase())
+}
+
 // https://stackoverflow.com/a/37644329/399058
 function* chunkArrayInGroups(arr : any, size : number) {
   for (var i=0; i<arr.length; i+=size)
@@ -121,5 +142,13 @@ export default {
 
   // indexes
   normalizeIndex,
-  nextIndex
+  nextIndex,
+  getId,
+
+  // manip
+  capitalize,
+
+  // i18n
+  filterI18NEntriesEN,
+  getI18NEntryEN,
 }

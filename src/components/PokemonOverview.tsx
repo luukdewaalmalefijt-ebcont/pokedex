@@ -64,7 +64,7 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
               placeholder={!this.state.loadImg}
               height={300}
             />
-            <h2 className="is-size-3">{this.props.data.name.replace(/^\w/, c => c.toUpperCase())}</h2>
+            <h2 className="is-size-3">{Utils.capitalize(this.props.data.name)}</h2>
           </Container>
       </Item>
     )
