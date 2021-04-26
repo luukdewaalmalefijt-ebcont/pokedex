@@ -68,7 +68,7 @@ const Wrapper = styled.div`
 
     &:not(.details-opened):hover {
       .box {
-        transform: scale(1.1);
+        transform: scale(1.1) rotate(-5deg);
         z-index: 5;
         border: 5px solid rgba(255, 255, 255, 0.7);
 
@@ -88,6 +88,7 @@ const Wrapper = styled.div`
         img.pokemon-image {
           opacity: 1;
           z-index: 6;
+          filter: drop-shadow(0.4rem 0.4rem 0.45rem rgba(0, 0, 30, 0.5));
         }
       }
     }

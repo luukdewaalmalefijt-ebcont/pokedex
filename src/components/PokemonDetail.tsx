@@ -44,12 +44,14 @@ const Wrapper = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     //filter: blur(15px);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.65);
     position: fixed;
     top: 0;
     width: 40%;
     left: 0;
     bottom: 0;
+    // https://stackoverflow.com/a/5115490/399058
+    box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.3);
   }
 
   & > .content {
@@ -66,6 +68,13 @@ const Wrapper = styled.div`
     h2, .tabs li a {
       color: white;
       font-weight: bold;
+      transition: all 0.75s;
+    }
+
+    .tabs {
+      li.is-active a, li:hover a {
+        color: #666;
+      }
     }
 
     ul {
@@ -84,10 +93,21 @@ const Wrapper = styled.div`
 
   .detail-image {
     img {
-      background: rgba(255, 255, 255, 0.3);
+      border: 5px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.2);
       padding: 10%;
       max-height: 50vh;
+      box-shadow: rgba(0, 0, 0, 1) 0px 60px 40px -7px;
+      transition: all 0.75s;
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: rgba(0, 0, 0, 1) 0px 70px 40px -10px;
+        filter: drop-shadow(0.4rem 0.4rem 0.45rem rgba(0, 0, 30, 0.5));
+      }
     }
+
+    /* fix strange extra margin */
+    margin-bottom: -50px;
   }
 `;
 
@@ -207,7 +227,7 @@ export default function PokemonDetail(props : any) {
 
       <div className="inner px-6 py-3 is-relative">
         {/* pokemon main image */}
-        <div className="px-6 py-6">
+        <div className="px-6 pt-6">
           {image}
         </div>
 
