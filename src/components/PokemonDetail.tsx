@@ -96,11 +96,19 @@ interface PokemonDetailProps {
    onDismiss: any
 }
 
-const TAB_ABILITY = 'ability';
-const TAB_MOVES = 'moves';
+const TAB_ABILITY     = 'ability';
+const TAB_MOVES       = 'moves';
+const TAB_EVOLUTIONS  = 'evolutions';
+const TAB_STATS       = 'stats';
 
 // typings for tab pane index
-type TabKey = typeof TAB_ABILITY | typeof TAB_MOVES;
+type TabKey
+  = typeof TAB_ABILITY
+  | typeof TAB_MOVES
+  | typeof TAB_EVOLUTIONS
+  | typeof TAB_STATS
+  ;
+
 type TabPanes = {[key in TabKey]: any};
 
 export default function PokemonDetail(props : any) {
@@ -158,22 +166,35 @@ export default function PokemonDetail(props : any) {
   // switchboard for all tab panes
   const panes : TabPanes = {
     'ability': abilityEl,
-    'moves': movesEl
+    'moves': movesEl,
+    'stats': <span/>,
+    'evolutions': <span/>
   };
 
-  const tabsComponent = <div>
-    {/* active tab content */}
-    {panes[activeTab]}
+  // generate click handler for tab
+  const tabActivatorFor = (tab : TabKey) => (
+    () =>
+      setActiveTab(tab));
 
-    <Tabs fullwidth align="center" type="toggle">
-      <Tab active={activeTab == TAB_ABILITY} onClick={() => {setActiveTab(TAB_ABILITY)}}>
+  const tabsComponent = <>
+    <Tabs fullwidth align="center" type="boxed">
+      <Tab active={activeTab == TAB_ABILITY} onClick={tabActivatorFor(TAB_ABILITY)}>
         Ability
       </Tab>
-      <Tab active={activeTab == TAB_MOVES} onClick={() => {setActiveTab(TAB_MOVES)}}>
+      <Tab active={activeTab == TAB_MOVES} onClick={tabActivatorFor(TAB_MOVES)}>
         Moves
       </Tab>
+      <Tab active={activeTab == TAB_EVOLUTIONS} onClick={tabActivatorFor(TAB_EVOLUTIONS)}>
+        Evolutions
+      </Tab>
+      <Tab active={activeTab == TAB_STATS} onClick={tabActivatorFor(TAB_STATS)}>
+        Stats
+      </Tab>
     </Tabs>
-  </div>
+
+    {/* active tab content */}
+    {panes[activeTab]}
+  </>
 
   const style = {
 //     marginTop: `${initialOffset}px`
@@ -184,7 +205,7 @@ export default function PokemonDetail(props : any) {
     <div className="content column is-two-fifths is-relative">
       <div className="background"/>
 
-      <div className="inner px-6 py-3">
+      <div className="inner px-6 py-3 is-relative">
         {/* pokemon main image */}
         <div className="px-6 py-6">
           {image}
