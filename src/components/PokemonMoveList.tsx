@@ -10,7 +10,9 @@ import MoveFn from "../fns/ability";
 import PokemonMove from "./PokemonMove";
 
 const List = styled.ul`
-
+  li {
+    list-style-type: none;
+  }
 `;
 
 interface PokemonMoveListProps {
@@ -24,5 +26,5 @@ export default function PokemonMoveList(props : any) {
       <li key={JSON.stringify(move)}><PokemonMove move={move.move}/></li>
     );
 
-  return <ul>{items}</ul>
+  return <List>{items}</List>
 }

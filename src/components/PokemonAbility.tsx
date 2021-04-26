@@ -10,7 +10,9 @@ import PokemonFn from "../fns/pokemon";
 import AbilityFn from "../fns/ability";
 
 const List = styled.ul`
-  color: white;
+  &, .ability-name {
+    color: white;
+  }
 `;
 
 interface PokemonAbilityProps {
@@ -35,12 +37,12 @@ export default function PokemonAbility(props : any) {
     .getEntriesEn(data)
     .map((entry, i) =>
       <li key={i}>
-        <span className="long">
-          {entry.effect}
-        </span>
-        <span className="short">
+        <strong className="short is-block ability-name">
           {entry.short_effect}
-        </span>
+        </strong>
+        <p className="long">
+          {entry.effect}
+        </p>
       </li>)
 
   return <List className="ability is-relative">
