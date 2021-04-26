@@ -99,6 +99,21 @@ const Wrapper = styled.div`
       max-height: 50vh;
       box-shadow: rgba(0, 0, 0, 1) 0px 60px 40px -7px;
       transition: all 0.75s;
+
+      @keyframes chillHovering {
+        0% {
+          margin-top: 0px;
+        }
+        100% {
+          margin-top: -25px;
+        }
+      }
+
+      animation-name: chillHovering;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+
       &:hover {
         transform: scale(1.05);
         box-shadow: rgba(0, 0, 0, 1) 0px 70px 40px -10px;
