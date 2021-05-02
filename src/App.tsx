@@ -32,6 +32,26 @@ const OverlayBlur = styled.div`
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3) 93%);
 `;
 
+const PokemonHero = styled.div`
+    background: url('https://wallpapercave.com/wp/zHsOYE4.jpg');
+    background-size: cover;
+    height: 70vh;
+    position: relative;
+`;
+
+const PokemonHeroGradient = styled.div`
+    background: rgb(0,0,0);
+    /* thank you https://cssgradient.io/ */
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+`;
+
 function App() {
   // loading state
   const [isLoading, setLoading] = useState(true);
@@ -100,7 +120,12 @@ function App() {
     onDismiss={closeDetails}
   />
 
+  const hero = <PokemonHero>
+    <PokemonHeroGradient/>
+  </PokemonHero>;
+
   const content = <div>
+    {hero}
     {lister}
     {detailView}
   </div>;

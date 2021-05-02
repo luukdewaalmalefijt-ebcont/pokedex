@@ -20,6 +20,7 @@ import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-type
 
 const Wrapper = styled.div`
   transition: filter 1s;
+  position: relative;
 
   &.details-opened {
     filter: blur(5px);
@@ -120,6 +121,18 @@ const Wrapper = styled.div`
   }
 `;
 
+const ListerTopGradient = styled.div`
+    background: rgb(0,0,0);
+    /* thank you https://cssgradient.io/ */
+    background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+    position: absolute;
+    width: 100%;
+    height: 70vh;
+    top: 0;
+    left: 0;
+    right: 0;
+`;
+
 interface PokemonListProps {
    data: INamedApiResourceList<IPokemon>,
    currentIndex: number,
@@ -129,7 +142,6 @@ interface PokemonListProps {
 }
 
 function PokemonList(props : PokemonListProps) {
-  // this should not be neccessary
   if (!props.data) {
     return <div>loading...</div>
   }
@@ -178,6 +190,7 @@ function PokemonList(props : PokemonListProps) {
   }
 
   return <Wrapper className={props.detailsOpened ? "details-opened" : ""}>
+    <ListerTopGradient/>
     <Tile kind="ancestor" size={12} vertical={true}>
       {parentTiles}
     </Tile>
