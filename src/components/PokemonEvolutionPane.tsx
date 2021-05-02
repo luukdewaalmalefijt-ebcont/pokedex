@@ -36,7 +36,7 @@ export default function PokemonEvolutionPane(props : any) {
             .url))
           .then(setEvolutionChain)
       })
-  }, []);
+  }, [props, evolutionChain]);
 
   if (!!!evolutionChain) {
     return <span className="evolution-pane loading">

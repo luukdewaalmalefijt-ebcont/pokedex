@@ -10,8 +10,17 @@ import PokemonType from "./PokemonType";
 import { IPokemonSpecies, IPokemon, IEvolutionChain, IChainLink } from "pokeapi-typescript";
 
 const Wrapper = styled.ul`
-  .subevolution {
+  &[data-root="true"] > .arrow {
+    display: none;
+  }
 
+  .arrow {
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  li {
+    list-style-type: none;
   }
 `;
 
@@ -29,8 +38,12 @@ export default function PokemonEvolution(props : any) {
         <PokemonEvolution data={link}/>
       </li>);
 
-  return <Wrapper className="evolution">
-    {props.data.species.name}
+  const name = props.data.species.name;
+
+  // TODO: load pokemon image
+  return <Wrapper className="evolution" data-root={props.root}>
+    <span className="arrow">↳</span>
+    {name}
     {subEvolutions}
   </Wrapper>
 }

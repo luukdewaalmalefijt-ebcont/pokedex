@@ -28,8 +28,6 @@ export default function PokemonImage(props : any) {
     setLoaded(true);
   }
 
-  // if the image is not a definite placehodler,
-  // try to
   const src = (isPlaceholder)
     ? `/${PLACEHOLDER_IMAGE_NAME}`
     : (!!props.pokemon)
