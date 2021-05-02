@@ -13,7 +13,8 @@ import useThrottle from "./hooks/throttle";
 
 // while this TS wrapper is handy, I would have wrapped it
 // in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
-// for even more convenience
+// for even more convenience.
+// update 02/05/21: they now also have GQL: https://beta.pokeapi.co/graphql/console/
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
 import { Waypoint } from 'react-waypoint';
@@ -97,6 +98,7 @@ function App() {
   const [detailPokemon, setDetailPokemon]
     = useState<INamedApiResource<IPokemon>>();
 
+  // pokemon name to filter on. Just a nice-to-have
   const [nameFilter, setNameFilter]
     = useState("");
 
@@ -133,6 +135,7 @@ function App() {
   };
 
   // TODO: move to filter input component
+  // TODO: use debounce to improve performance more
   const handleChange = (e : any) => setNameFilter(e.target.value);
 
   const menu = <PokemonMenu

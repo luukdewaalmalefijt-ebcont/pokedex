@@ -4,7 +4,7 @@ import 'bulma/bulma.sass';
 import React, { useState, useEffect, useMemo } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PokeAPI from "pokeapi-typescript";
-import { INamedApiResourceList, IPokemon, INamedApiResource, IAbility, IType, IMove } from "pokeapi-typescript";
+import { INamedApiResourceList, IPokemon, INamedApiResource, IAbility, IType, IMove, IStat } from "pokeapi-typescript";
 import { Tabs, Image } from 'react-bulma-components';
 
 import Utils from "../fns/util";
@@ -15,6 +15,7 @@ import PokemonImage from "./PokemonImage";
 import PokemonAbilityList from "./PokemonAbilityList";
 import PokemonTypeList from "./PokemonTypeList";
 import PokemonMoveList from "./PokemonMoveList";
+import PokemonStatList from "./PokemonStatList";
 import tileBackground from "../backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg";
 
 const Tab = Tabs.Tab;
@@ -148,6 +149,7 @@ type TabPanes = {[key in TabKey]: any};
 
 export default function PokemonDetail(props : any) {
   const [ability, setAbility] = useState<IAbility>();
+  const [stats, setStats] = useState<IStat>();
   const [details, setDetails] = useState<IPokemon>();
   const [activeTab, setActiveTab] = useState<TabKey>(TAB_ABILITY);
 
@@ -196,13 +198,14 @@ export default function PokemonDetail(props : any) {
   // pane element for moves
   const movesEl = <PokemonMoveList items={(details?.moves || [])}/>;
 
-  console.log(details);
+  // pane element for stats
+  const statsEl = <PokemonStatList items={(details?.stats || [])}/>;
 
   // switchboard for all tab panes
   const panes : TabPanes = {
     'ability': abilityEl,
     'moves': movesEl,
-    'stats': <span/>,
+    'stats': statsEl,
     'evolutions': <span/>
   };
 

@@ -147,6 +147,10 @@ function PokemonList(props : PokemonListProps) {
     return <div>loading...</div>
   }
 
+  // apply name filter to result set. I expected this to be slow
+  // but its not so bad. It helps that the Pokemon Images are lazy-loaded
+  // so the initial entry filtering is quick and doesnt generate so much
+  // image loading requests. It could be even improved by a debounce handler on the filtering input in App.tsx
   const pokemonList = props
     .data
     .results
