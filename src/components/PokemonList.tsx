@@ -138,7 +138,8 @@ interface PokemonListProps {
    currentIndex: number,
    previousIndex: number,
    onShowDetail: any,
-   detailsOpened: boolean
+   detailsOpened: boolean,
+   filter: string
 }
 
 function PokemonList(props : PokemonListProps) {
@@ -146,7 +147,17 @@ function PokemonList(props : PokemonListProps) {
     return <div>loading...</div>
   }
 
-  const pokemonList = props.data.results;
+  const pokemonList = props
+    .data
+    .results
+    .filter((pokemon : INamedApiResource<IPokemon>) => {
+      return props.filter.length < 2 || pokemon
+        .name
+        .toLowerCase()
+        .includes(props
+          .filter
+          .toLowerCase())
+    });
 
   // create generator for splitting list in groups of 4 for layout
   const pokemonListGenerator = Utils.chunkArrayInGroups(pokemonList, 4);
