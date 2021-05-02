@@ -16,6 +16,7 @@ import PokemonAbilityList from "./PokemonAbilityList";
 import PokemonTypeList from "./PokemonTypeList";
 import PokemonMoveList from "./PokemonMoveList";
 import PokemonStatList from "./PokemonStatList";
+import PokemonEvolutionPane from "./PokemonEvolutionPane";
 import tileBackground from "../backgrounds/a305ae5e100f5f9086469496e56ec696c872e3ad_hq.jpg";
 
 const Tab = Tabs.Tab;
@@ -92,12 +93,23 @@ const Wrapper = styled.div`
     }
   }
 
+  // the floating pokemon image is a bit funky
+  // and might have a padding or margin overlapping the tabs bar.
+  // so ignore pointer events on the container
+  .image-header {
+    pointer-events: none;
+  }
+
   .detail-image {
+    margin: 0;
+    margin-left: 5vw;
+
     img {
       border: 5px solid rgba(255, 255, 255, 0.7);
       background: rgba(255, 255, 255, 0.2);
       padding: 10%;
-      max-height: 50vh;
+      max-height: 40vh;
+      max-width: 40vh;
       box-shadow: rgba(0, 0, 0, 1) 0px 60px 40px -7px;
       transition: all 0.75s;
 
@@ -123,7 +135,7 @@ const Wrapper = styled.div`
     }
 
     /* fix strange extra margin */
-    margin-bottom: -50px;
+    margin-bottom: -20vh;
   }
 `;
 
@@ -201,12 +213,15 @@ export default function PokemonDetail(props : any) {
   // pane element for stats
   const statsEl = <PokemonStatList items={(details?.stats || [])}/>;
 
+  // pane for evolutions
+  const evolutionsEl = <PokemonEvolutionPane pokemon_details={details}/>;
+
   // switchboard for all tab panes
   const panes : TabPanes = {
     'ability': abilityEl,
     'moves': movesEl,
     'stats': statsEl,
-    'evolutions': <span/>
+    'evolutions': evolutionsEl
   };
 
   // generate click handler for tab
@@ -245,7 +260,7 @@ export default function PokemonDetail(props : any) {
 
       <div className="inner px-6 py-3 is-relative">
         {/* pokemon main image */}
-        <div className="px-6 pt-6">
+        <div className="px-6 pt-6 image-header">
           {image}
         </div>
 
