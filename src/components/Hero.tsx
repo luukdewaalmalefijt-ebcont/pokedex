@@ -4,12 +4,11 @@ import styled, { css } from 'styled-components';
 import '../App.scss';
 import Utils from "../fns/util";
 
-// while this TS wrapper is handy, I would have wrapped it
-// in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
-// for even more convenience.
-// update 02/05/21: they now also have GQL: https://beta.pokeapi.co/graphql/console/
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
+import { Level } from "react-bulma-components";
+
+const LevelItem = Level.Item;
 
 const PokemonHero = styled.div`
   background: url('https://wallpapercave.com/wp/zHsOYE4.jpg');
@@ -80,9 +79,8 @@ export default function Hero(props: any) {
     Copyright © WallpaperCave
   </span>;
 
-  // TODO: use Bulma TS component
-  const body = <div className="level">
-    <div className="level-item has-text-centered">
+  const body = <Level>
+    <LevelItem className="has-text-centered">
       <input
         className="input is-large name-filter"
         type="text"
@@ -90,8 +88,8 @@ export default function Hero(props: any) {
         value={props.nameFilter}
         onChange={handleChange}
       />
-    </div>
-  </div>;
+    </LevelItem>
+  </Level>;
 
   return <PokemonHero>
     <PokemonMenuGradient/>
