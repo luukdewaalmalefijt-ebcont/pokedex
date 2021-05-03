@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# EBCONT Pokedex
+![](./design/overview.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
+The absolutely authorative [EBCONT](https://ebcont.com) Pokedex. 
+Frontend that uses (REST) PokéApi. 
+Design inspired by NetFlix and Disney+;
+
+## TODO
+- Use full width to display overlay Pokemon details
+- Include Pokemon images in Evolution tree
+- include logo in Hero
+- make Loader style more consistent with general theme
+- create animation for Pokemon Tile elements being loaded, instead of using only LazyLoad for the <img>
+- use debounce on main Filter for slightly improved performance
+- make number of Pokemon Tiles per row configurable (i.e. NetFlix uses around 6 tiles instead of 4)
+- use different Pokemon Tile backgrounds based on Pokemon types (see ./design for example from different app)
+- pre-cache pokemon images to ./public
+- include more pokemon details on pokemon tiles itself
 
 ## Available Scripts
 
