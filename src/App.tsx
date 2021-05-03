@@ -35,7 +35,6 @@ const OverlayBlur = styled.div`
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3) 93%);
 `;
 
-// hero image. TODO: attributeion in UI
 const PokemonHero = styled.div`
   background: url('https://wallpapercave.com/wp/zHsOYE4.jpg');
   background-size: cover;
@@ -54,6 +53,15 @@ const PokemonHero = styled.div`
       max-width: 600px;
       box-shadow: rgba(0, 0, 0, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     }
+  }
+
+  .wallpaper-attribution {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 11px;
+    z-index: 9;
   }
 `;
 
@@ -175,6 +183,7 @@ function App() {
         />
       </div>
     </div>
+    <span className="wallpaper-attribution">Copyright © WallpaperCave</span>
   </PokemonHero>;
 
   const content = <div>
