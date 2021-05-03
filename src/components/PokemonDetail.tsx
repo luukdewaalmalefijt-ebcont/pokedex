@@ -183,7 +183,7 @@ export default function PokemonDetail(props : any) {
     }
   }, [props]);
 
-  // edge case that shoujld not happen
+  // edge case that should not happen
   if (!props.pokemon) {
     return <Wrapper className="detail-view hidden">
       no pokemon selected

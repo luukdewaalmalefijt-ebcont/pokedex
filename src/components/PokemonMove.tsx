@@ -10,6 +10,7 @@ import PokemonType from "./PokemonType";
 import { IMove } from "pokeapi-typescript";
 
 const Wrapper = styled.div`
+  /* todo: reduce duplication between different panes using a white h3 */
   h3 {
     color: white;
     transition: all 0.5s;
@@ -36,7 +37,9 @@ export default function PokemonMove(props : any) {
   useEffect(() => {
     PokeAPI
       .Move
-      .fetch(Utils.getId(props.move.url))
+      .fetch(Utils.getId(props
+        .move
+        .url))
       .then(setData)
   }, ["data"]);
 
@@ -59,7 +62,14 @@ export default function PokemonMove(props : any) {
 
   const toggleOpened = () => setOpened(!isOpened);
 
-  const {type, accuracy, power, pp, damage_class} = data;
+  // deconstruct for easier access
+  const {
+    type,
+    accuracy,
+    power,
+    pp,
+    damage_class
+  } = data;
 
   const headerEl = <h3 className="is-3 py-2" onClick={toggleOpened}>
     {title}

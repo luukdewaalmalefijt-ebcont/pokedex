@@ -36,13 +36,21 @@ export default function PokemonEvolution(props : any) {
     .map((link : IChainLink, i : number) =>
       <li key={i} className="subevolution mx-4">
         <PokemonEvolution data={link}/>
-      </li>);
+      </li>
+    );
 
-  const name = props.data.species.name;
+  const name = props
+    .data
+    .species
+    .name;
+
+  const descendantArrow = <span className="arrow">
+    ↳
+  </span>;
 
   // TODO: load pokemon image
   return <Wrapper className="evolution" data-root={props.root}>
-    <span className="arrow">↳</span>
+    {descendantArrow}
     {name}
     {subEvolutions}
   </Wrapper>

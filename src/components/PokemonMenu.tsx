@@ -6,11 +6,10 @@ import PokemonFn from "../fns/pokemon";
 import PokemonOverview from "./PokemonOverview";
 import Utils from "../fns/util";
 
-// while this TS wrapper is handy, I would have wrapped it
-// in GraphQL, like this guy here: https://graphql-pokeapi.vercel.app/
-// for even more convenience
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
+
+// note: this menu is currently unused
 
 const Index = styled.ul`
   position: absolute;

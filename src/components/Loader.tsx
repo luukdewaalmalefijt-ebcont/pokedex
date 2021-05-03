@@ -2,11 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import LoadingScreen from 'react-loading-screen';
 
+// todo: make work
+import pokeballImage from "../../public/placeholder-pokeball2.png";
+
 interface LoaderProps {
   isLoading: boolean,
   content: any
 }
 
+// todo: import image instead of hardcoding
 export default function Loader(props : LoaderProps) {
   return <LoadingScreen
     loading={props.isLoading}

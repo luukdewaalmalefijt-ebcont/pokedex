@@ -12,13 +12,21 @@ const Img = styled.img`
   opacity: 1;
   max-height: 300px;
   min-height: 300px;
-
-  ${props => props?.src?.includes(PLACEHOLDER_IMAGE_NAME) && css`
-    //animation: App-logo-spin infinite 20s linear;
-  `}
 `;
 
-export default function PokemonImage(props : any) {
+interface ImageProps {
+  placeholder: boolean;
+  src?: string;
+  pokemon?: any; //todo typing
+  // todo: currently unused
+  height?: number;
+}
+
+// due to being one of the oldest components
+// this is tightly coupled with an instance of IPokemon
+// TODO: decouple in general generic Image component,
+// and secondly a Pokemon-specific one that parses a pokemon instance
+export default function PokemonImage(props : ImageProps) {
   const [loaded, setLoaded] = useState(false);
 
   const isPlaceholder = props.placeholder && !loaded;
@@ -39,13 +47,6 @@ export default function PokemonImage(props : any) {
     (isPlaceholder) ? "placeholder" : ""
   ];
 
-//   return <Img
-//      className={classes.join(" ")}
-//      src={src}
-//      loading="lazy"
-//    />
-
-  // TODO: the dedicated lazy component worked fine but worsened performance
   return <LazyLoadImage
     className="is-inline-block pokemon-image"
     src={src} // use normal <img> attributes as props

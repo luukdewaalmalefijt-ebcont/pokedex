@@ -24,5 +24,7 @@ export default function PokemonTypeList(props : any) {
       <PokemonType type={type.type}/>
     );
 
-  return <div className="tags has-addons is-inline-block">{items}</div>
+  return <div className="tags has-addons is-inline-block">
+    {items}
+  </div>
 }

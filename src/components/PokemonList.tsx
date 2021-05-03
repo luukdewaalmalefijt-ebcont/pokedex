@@ -133,6 +133,9 @@ const ListerTopGradient = styled.div`
     right: 0;
 `;
 
+// the number of tiles to use horizontally
+const TILE_COUNT_ROW = 4;
+
 interface PokemonListProps {
    data: INamedApiResourceList<IPokemon>,
    currentIndex: number,
@@ -164,8 +167,15 @@ function PokemonList(props : PokemonListProps) {
     });
 
   // create generator for splitting list in groups of 4 for layout
-  const pokemonListGenerator = Utils.chunkArrayInGroups(pokemonList, 4);
+  const pokemonListGenerator = Utils
+    .chunkArrayInGroups(
+      pokemonList,
+      TILE_COUNT_ROW );
 
+  // TODO: cant pass this to Tile size
+  const bulmaTileSizeSpecifier : number = ( 12 / TILE_COUNT_ROW ) || 3;
+
+  // containers for Tile rows
   let parentTiles = [];
   let genNext = pokemonListGenerator.next();
 
@@ -173,25 +183,36 @@ function PokemonList(props : PokemonListProps) {
     const tiles = genNext
       .value
       .map((pokemon : INamedApiResource<IPokemon>) => {
-        const placeholder = <PokemonImage placeholder={true}/>;
-        return <Tile size={3} kind="child" key={pokemon.name} className="pokemon-tile is-relative px-3">
-          <LazyLoad className="" placeholder={ placeholder } key={ pokemon.name } offset={ 300 } once={ true } unmountIfInvisible={ true }>
-            <CSSTransition
-              classNames="pokemon-item"
-              timeout={500}
-              appear
-            >
-              <div className="box is-relative py-5">
-                <div className="tile-background"/>
-                <PokemonOverview
-                  key={pokemon.name}
-                  data={pokemon}
-                  index={-1} // todo
-                  onClick={() => props.onShowDetail(pokemon)}
-                />
-              </div>
-            </CSSTransition>
-          </LazyLoad>
+        const placeholder =
+          <PokemonImage placeholder={true}/>;
+
+        return <Tile
+          size={3}
+          kind="child"
+          key={pokemon.name}
+          className="pokemon-tile is-relative px-3">
+            <LazyLoad
+              className=""
+              placeholder={ placeholder }
+              key={ pokemon.name }
+              offset={ 300 }
+              once={ true }
+              unmountIfInvisible={ true }>
+                <CSSTransition
+                  classNames="pokemon-item"
+                  timeout={500}
+                  appear>
+                    <div className="box is-relative py-5">
+                      <div className="tile-background"/>
+                      <PokemonOverview
+                        key={pokemon.name}
+                        data={pokemon}
+                        index={-1} // todo
+                        onClick={() => props.onShowDetail(pokemon)}
+                      />
+                    </div>
+                </CSSTransition>
+            </LazyLoad>
         </Tile>
       });
 

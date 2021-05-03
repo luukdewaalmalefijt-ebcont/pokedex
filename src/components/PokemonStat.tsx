@@ -34,16 +34,9 @@ interface PokemonStatProps {
    index: number
 }
 
+// color scheme based on sampling the hero image
+// TODO: organize color scheme more centralized? Configuration?
 const COLORS = [
-  // eye-hurting primary colors
-//   "red",
-//   "orange",
-//   "yellow",
-//   "magenta",
-//   "pink",
-//   "cyan"
-
-  // color scheme based on sampling the hero image
   "#1e7bcb",
   "#95241c",
   "#33223d",
@@ -52,7 +45,15 @@ const COLORS = [
   "#241b3d"
 ];
 
-export default function PokemonStat(props : any) {
+interface StatProps {
+  value: number,
+  name: string,
+  index: number,
+  id: number,
+  effort: number
+}
+
+export default function PokemonStat(props : StatProps) {
   const relSize = 25 + (((props.value || 0) / 255) * 100);
 
   const barStyle = {
@@ -61,13 +62,20 @@ export default function PokemonStat(props : any) {
     backgroundColor: COLORS[props.index]
   };
 
+  const header = <h3 className="px-4 py-2">
+    {props.name}
+  </h3>;
+
+  // worthy of its own component
+  const bar = <div
+    className="bar"
+    data-value={props.value}
+    data-size={relSize}
+    style={barStyle}
+  />;
+
   return <Wrapper>
-    <div
-      className="bar"
-      data-value={props.value}
-      data-size={relSize}
-      style={barStyle}
-    />
-    <h3 className="px-4 py-2">{props.name}</h3>
+    {bar}
+    {header}
   </Wrapper>
 }

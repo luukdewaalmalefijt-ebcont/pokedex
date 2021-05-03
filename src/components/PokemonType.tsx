@@ -37,6 +37,7 @@ type TYPE
 type TypeColors = {[key in TYPE]: any};
 
 // color mapping from type to color
+// TODO: defunct. See App.scss
 const COLORS : TypeColors = {
   'fighting':
     "brown",
@@ -74,7 +75,7 @@ const COLORS : TypeColors = {
     "light pink"
 };
 
-// TODO: color
+// TODO: passable color
 export default function PokemonType(props : any) {
   const classes = ["type", "is-inline-block", props.type.name];
 
@@ -88,7 +89,7 @@ export default function PokemonType(props : any) {
 //     color: (['steel', 'ghost'].includes(name)) ? "black" : "white"
   };
 
-  // cant use the Bulma colors here since the color shoudl be somewhat semantic
+  // cant use the Bulma colors here since the color should be somewhat semantic
   // of the pokemon type and is not related to UI
   return <Tag
     size="medium"

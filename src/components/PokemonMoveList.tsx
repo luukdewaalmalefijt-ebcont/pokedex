@@ -23,7 +23,9 @@ export default function PokemonMoveList(props : any) {
   const items = props
     .items
     .map((move : any) =>
-      <li key={JSON.stringify(move)}><PokemonMove move={move.move}/></li>
+      <li key={JSON.stringify(move)}>
+        <PokemonMove move={move.move}/>
+      </li>
     );
 
   return <List>{items}</List>

@@ -21,6 +21,7 @@ interface PokemonEvolutionPaneProps {
 export default function PokemonEvolutionPane(props : any) {
   const [evolutionChain, setEvolutionChain] = useState<IEvolutionChain>();
 
+  // combine nested call for evolution chain retrieval
   useEffect(() => {
     PokeAPI
       .PokemonSpecies

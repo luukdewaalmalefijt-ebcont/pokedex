@@ -22,7 +22,10 @@ export default function PokemonAbilityList(props : any) {
   const items = props
     .items
     .map((ability : any) =>
-      <li key={ability.ability.url}><PokemonAbility ability={ability.ability}/></li>
+      <li key={ability.ability.url}>
+        <PokemonAbility
+          ability={ability.ability}/>
+      </li>
     );
 
   return <ul>{items}</ul>

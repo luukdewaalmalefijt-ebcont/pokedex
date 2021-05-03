@@ -29,7 +29,6 @@ interface PokemonOverviewState {
    showDetails: boolean,
 }
 
-// TODO: props typing
 export default class PokemonOverview extends React.Component<PokemonOverviewProps, PokemonOverviewState> {
   constructor(props : PokemonOverviewProps) {
     super(props);
@@ -44,13 +43,25 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
   }
 
   render() {
-    const img = PokemonFn.getImageUrl(this.props.data);
+    const img = PokemonFn.getImageUrl(this
+      .props
+      .data);
+
     const that = this;
 
     const classes = [
       "overview-pokemon",
       "is-relative",
     ];
+
+    const capitalizedName = Utils.capitalize(this
+      .props
+      .data
+      .name );
+
+    const header = <h2 className="is-size-3">
+      {capitalizedName}
+    </h2>;
 
     return (
       <Item
@@ -64,7 +75,7 @@ export default class PokemonOverview extends React.Component<PokemonOverviewProp
               placeholder={!this.state.loadImg}
               height={300}
             />
-            <h2 className="is-size-3">{Utils.capitalize(this.props.data.name)}</h2>
+            {header}
           </Container>
       </Item>
     )
