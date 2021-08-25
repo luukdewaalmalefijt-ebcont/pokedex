@@ -23,7 +23,7 @@ Design inspired by NetFlix and Disney+;
 
 In the project directory, you can run:
 
-`npm run`
+`npm run-script run`
 
 or simply:
 
