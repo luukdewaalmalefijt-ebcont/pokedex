@@ -17,12 +17,17 @@ Design inspired by NetFlix and Disney+;
 - use different Pokemon Tile backgrounds based on Pokemon types (see ./design for example from different app)
 - pre-cache pokemon images to ./public
 - include more pokemon details on pokemon tiles itself
+- highlight pattern matches in pokemon names when using Filter (highlight.js?)
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+`npm start`
+
+or simply:
+
+```make```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
