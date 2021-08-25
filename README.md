@@ -1,7 +1,7 @@
 # EBCONT Pokedex
 ![](./design/overview.png)
 
-## Introduction
+## Introduction 
 The absolutely authorative [EBCONT](https://ebcont.com) Pokedex. 
 Frontend that uses (REST) PokéApi. 
 Design inspired by NetFlix and Disney+;
