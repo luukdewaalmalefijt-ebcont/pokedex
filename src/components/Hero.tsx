@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 import '../App.scss';
 import Utils from "../fns/util";
+import Filter from "./Filter";
 
 import PokeAPI from "pokeapi-typescript";
 import { INamedApiResourceList, IPokemon, INamedApiResource } from "pokeapi-typescript";
@@ -65,8 +66,8 @@ const PokemonMenuGradient = styled.div`
   right: 0;
 `;
 
+// TODO: props typing
 export default function Hero(props: any) {
-  // TODO: move to filter input component
   // TODO: use debounce to improve performance more
   const handleChange = (e : any) =>
     props.setNameFilter(e.target.value);
@@ -81,13 +82,7 @@ export default function Hero(props: any) {
 
   const body = <Level>
     <LevelItem className="has-text-centered">
-      <input
-        className="input is-large name-filter"
-        type="text"
-        placeholder="Pokemon name..."
-        value={props.nameFilter}
-        onChange={handleChange}
-      />
+      <Filter value={props.nameFilter} onChange={handleChange}/>
     </LevelItem>
   </Level>;
 
